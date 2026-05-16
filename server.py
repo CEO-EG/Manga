@@ -841,6 +841,7 @@ function toast(msg,col){
 }
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function attr(s){return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
 async function pollStatus(){
   try{
@@ -1029,6 +1030,14 @@ async function refreshLibrary(){
     </article>`;
   }).join('');
 }
+document.getElementById('library-grid').addEventListener('click',e=>{
+  const el=e.target.closest('[data-action]');
+  if(!el)return;
+  const action=el.dataset.action;
+  if(action==='read')openReader(el.dataset.name);
+  if(action==='optimize')quickOptimize(el.dataset.name);
+  if(action==='delete')openDelModal(el.dataset.dir,el.dataset.label);
+});
 
 function quickOptimize(name){
   showPanel('optimize',document.getElementById('sb-optimize'));
@@ -1055,10 +1064,28 @@ async function confirmDelete(){
   }catch(e){toast('Delete failed','var(--red)');}
 }
 
+function handleReaderScroll(){
+  const body=document.getElementById('reader-body');
+  const header=document.querySelector('.reader-hd');
+  const current=body.scrollTop;
+  if(current>_readerLastScroll+12 && current>70)header.classList.add('hidden');
+  else if(current<_readerLastScroll-12)header.classList.remove('hidden');
+  _readerLastScroll=Math.max(current,0);
+}
+function showReaderChrome(){
+  const header=document.querySelector('.reader-hd');
+  header.classList.remove('hidden');
+}
+
 async function openReader(manga){
   _readerManga=manga;
   document.getElementById('reader').classList.add('open');
   document.body.style.overflow='hidden';
+  _readerLastScroll=0;
+  showReaderChrome();
+  const readerBody=document.getElementById('reader-body');
+  readerBody.removeEventListener('scroll',handleReaderScroll);
+  readerBody.addEventListener('scroll',handleReaderScroll,{passive:true});
   try{screen.orientation.lock('portrait').catch(()=>{});}catch(e){}
   const r=await fetch(`/api/read/${encodeURIComponent(manga)}/chapters`);
   if(!r.ok){toast('No chapters found','var(--red)');closeReader();return;}
@@ -1079,7 +1106,10 @@ async function loadReaderCh(idx){
   const pages=document.getElementById('reader-pages');
   const spin=document.getElementById('reader-spin');
   pages.innerHTML='';spin.style.display='block';
-  document.getElementById('reader-body').scrollTop=0;
+  const readerBody=document.getElementById('reader-body');
+  readerBody.scrollTop=0;
+  _readerLastScroll=0;
+  showReaderChrome();
   const r=await fetch(`/api/read/${encodeURIComponent(_readerManga)}/${encodeURIComponent(ch)}/images`);
   if(!r.ok){spin.textContent='Failed to load chapter.';return;}
   const d=await r.json();
@@ -1089,6 +1119,8 @@ async function loadReaderCh(idx){
 
 function closeReader(){
   document.getElementById('reader').classList.remove('open');
+  document.getElementById('reader-body').removeEventListener('scroll',handleReaderScroll);
+  showReaderChrome();
   document.body.style.overflow='';
   _readerManga=null;_readerChs=[];_readerIdx=0;
 }
