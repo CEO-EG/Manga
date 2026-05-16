@@ -832,10 +832,30 @@ function onReaderScroll(){
 }
 
 function stripAnsi(s){
-  return String(s)
-    .replace(/\x1B\][^\x07]*(?:\x07|\x1B\\)/g,'')
-    .replace(/\x1B[@-_][0-?]*[ -/]*[@-~]/g,'');
+  let out='', text=String(s);
+  for(let i=0;i<text.length;i++){
+    if(text.charCodeAt(i)!==27){out+=text[i];continue;}
+    i++;
+    if(text[i]===']'){
+      while(i<text.length && text.charCodeAt(i)!==7){
+        if(text.charCodeAt(i)===27 && text[i+1]==='\\'){i++;break;}
+        i++;
+      }
+      continue;
+    }
+    if(text[i]==='['){
+      i++;
+      while(i<text.length){
+        const c=text.charCodeAt(i);
+        if(c>=64 && c<=126)break;
+        i++;
+      }
+      continue;
+    }
+  }
+  return out;
 }
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function escAttr(s){return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
