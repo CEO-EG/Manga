@@ -582,227 +582,56 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>墨 Manga Vault</title>
+<title>Manga</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2308090b'/%3E%3Cpath d='M18 16h18a10 10 0 0 1 10 10v22H28a10 10 0 0 1-10-10V16Z' fill='none' stroke='%23f2f3f5' stroke-width='4'/%3E%3Cpath d='M27 28h12M27 37h8' stroke='%23f2f3f5' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:       #0b0b0f;
-  --ink2:      #111118;
-  --ink3:      #191921;
-  --border:    #22222e;
-  --border2:   #2e2e3e;
-  --red:       #e8294a;
-  --red-dim:   rgba(232,41,74,0.10);
-  --red-glow:  rgba(232,41,74,0.22);
-  --gold:      #f5c842;
-  --gold-dim:  rgba(245,200,66,0.10);
-  --green:     #2ec77a;
-  --green-dim: rgba(46,199,122,0.10);
-  --blue:      #4ea8ff;
-  --text:      #eaeaf2;
-  --text2:     #7878a0;
-  --text3:     #44445a;
-  --font-d:    'Bebas Neue', sans-serif;
-  --font:      'DM Sans', sans-serif;
-  --mono:      'JetBrains Mono', monospace;
-  --r:         10px;
-  --rs:        6px;
-  --sw:        228px;
-  --nh:        60px;
+  color-scheme: dark;
+  --bg: #08090b;
+  --bg-soft: #0d0f12;
+  --panel: #111318;
+  --panel-2: #151820;
+  --panel-3: #1b1f28;
+  --line: #262b35;
+  --line-soft: rgba(255,255,255,.07);
+  --text: #f2f3f5;
+  --muted: #a3abb8;
+  --dim: #68707d;
+  --accent: #e5e7eb;
+  --accent-dark: #c9ced6;
+  --success: #40c983;
+  --warning: #d8a845;
+  --danger: #e55f6d;
+  --red: var(--danger);
+  --green: var(--success);
+  --danger-soft: rgba(229,95,109,.12);
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --sidebar: 260px;
+  --mobile-nav: 64px;
+  --font: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-
-/* Shell */
-.shell{display:grid;grid-template-columns:var(--sw) 1fr;min-height:100vh}
-
-/* Sidebar */
-.sidebar{background:var(--ink2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
-.logo-wrap{padding:26px 20px 20px;border-bottom:1px solid var(--border)}
-.logo-k{font-family:var(--font-d);font-size:30px;color:var(--red);letter-spacing:2px;line-height:1}
-.logo-en{font-family:var(--font-d);font-size:19px;letter-spacing:3px;color:var(--text);margin-top:1px}
-.logo-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:1.5px;margin-top:5px;text-transform:uppercase}
-
-/* FlareSolverr chip */
-.flare-chip{margin:14px 12px;background:var(--ink3);border:1px solid var(--border);border-radius:var(--rs);padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.flare-left{display:flex;align-items:center;gap:8px}
-.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:all .3s}
-.dot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
-.dot.off{background:var(--text3)}
-.flare-name{font-family:var(--mono);font-size:10px;color:var(--text2)}
-.flare-btn{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:4px;border:none;cursor:pointer;transition:all .15s}
-.flare-btn.start{background:var(--green-dim);color:var(--green);border:1px solid rgba(46,199,122,.2)}
-.flare-btn.stop{background:var(--red-dim);color:var(--red);border:1px solid rgba(232,41,74,.2)}
-.flare-btn:hover{filter:brightness(1.15)}
-
-/* Nav */
-.nav{padding:8px 10px;flex:1}
-.nav-label{font-size:9px;font-weight:600;letter-spacing:2px;color:var(--text3);text-transform:uppercase;padding:0 10px;margin:10px 0 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rs);cursor:pointer;border:none;background:none;color:var(--text2);font-family:var(--font);font-size:13px;font-weight:500;width:100%;text-align:left;transition:all .15s;position:relative}
-.nav-item:hover{background:var(--ink3);color:var(--text)}
-.nav-item.active{background:var(--red-dim);color:var(--red)}
-.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;background:var(--red);border-radius:0 3px 3px 0}
-.nav-icon{font-size:16px;flex-shrink:0}
-.nav-badge{margin-left:auto;background:rgba(245,200,66,.18);color:var(--gold);font-size:9px;font-weight:700;font-family:var(--mono);padding:2px 6px;border-radius:10px;display:none}
-
-/* Main */
-.main{padding:34px 36px;min-width:0}
-
-/* Bottom nav */
-.bot-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(--nh);background:var(--ink2);border-top:1px solid var(--border);z-index:200;padding-bottom:env(safe-area-inset-bottom)}
-.bot-nav-inner{display:flex;height:100%}
-.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;cursor:pointer;color:var(--text3);font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:.3px;transition:color .15s;position:relative}
-.bn.active{color:var(--red)}
-.bn-ico{font-size:19px}
-.bn-bdg{position:absolute;top:8px;right:calc(50% - 18px);background:var(--gold);color:#1a1200;font-size:8px;font-weight:800;padding:1px 5px;border-radius:8px;display:none}
-
-/* Panels */
-.panel{display:none;animation:panelIn .18s ease-out}
-.panel.active{display:block}
-@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* Page heading */
-.pg-title{font-family:var(--font-d);font-size:36px;letter-spacing:2px;color:var(--text);line-height:1}
-.pg-sub{font-size:11px;color:var(--text3);margin-top:5px;font-family:var(--mono);margin-bottom:26px}
-
-/* Cards */
-.card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
-.card-hd{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.card-hd::before{content:'';display:block;width:16px;height:2px;background:var(--red);border-radius:1px;flex-shrink:0}
-
-/* Forms */
-.field{margin-bottom:12px}
-.field label{display:block;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:5px;font-family:var(--mono)}
-.field input,.field select{width:100%;background:var(--ink);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:var(--mono);font-size:12px;padding:9px 11px;outline:none;transition:border-color .15s,box-shadow .15s}
-.field input:focus,.field select:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-dim)}
-.field input::placeholder{color:var(--text3)}
-.row2{display:flex;gap:12px}
-.row2 .field{flex:1}
-.checks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px;margin-top:2px}
-.chk{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12px;color:var(--text2);font-weight:500;user-select:none}
-.chk input[type=checkbox]{accent-color:var(--red);width:13px;height:13px}
-.chk:hover{color:var(--text)}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:var(--rs);border:none;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:600;letter-spacing:.2px;transition:all .15s;white-space:nowrap}
-.btn-red{background:var(--red);color:#fff}
-.btn-red:hover{opacity:.85;transform:translateY(-1px)}
-.btn-ghost{background:var(--ink3);color:var(--text2);border:1px solid var(--border)}
-.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
-.btn-read{background:var(--red-dim);color:var(--red);border:1px solid rgba(232,41,74,.22)}
-.btn-read:hover{background:rgba(232,41,74,.17)}
-.btn-dl{background:var(--green-dim);color:var(--green);border:1px solid rgba(46,199,122,.2);text-decoration:none}
-.btn-dl:hover{background:rgba(46,199,122,.17)}
-.btn-del{background:transparent;color:var(--text3);border:1px solid var(--border);font-size:11px;padding:6px 10px}
-.btn-del:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
-.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
-
-/* Library grid */
-.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:16px}
-
-/* Manga card */
-.m-card{background:var(--ink2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
-.m-card:hover{border-color:var(--border2);transform:translateY(-4px)}
-
-/* Cover */
-.m-cover{position:relative;width:100%;aspect-ratio:2/3;background:var(--ink3);overflow:hidden;flex-shrink:0}
-.m-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
-.m-card:hover .m-cover img{transform:scale(1.05)}
-.m-cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--text3);font-family:var(--font-d);letter-spacing:2px}
-.m-badges{position:absolute;top:7px;left:7px;display:flex;flex-direction:column;gap:4px}
-.m-badge{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:3px 7px;border-radius:4px;backdrop-filter:blur(6px)}
-.mb-cbz{background:rgba(46,199,122,.82);color:#00250e}
-.mb-opt{background:rgba(245,200,66,.82);color:#251a00}
-.m-overlay{position:absolute;inset:0;background:rgba(11,11,15,.72);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .22s}
-.m-card:hover .m-overlay{opacity:1}
-.m-overlay-btn{background:var(--red);color:#fff;border:none;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:600;padding:8px 20px;border-radius:var(--rs)}
-
-/* Info */
-.m-info{padding:9px 10px 5px;flex:1;display:flex;flex-direction:column;gap:3px}
-.m-name{font-size:12px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.m-meta{font-family:var(--mono);font-size:10px;color:var(--text3)}
-
-/* Actions */
-.m-actions{padding:7px 8px 9px;display:flex;flex-direction:column;gap:5px}
-.m-actions .btn{font-size:11px;padding:7px 8px;width:100%}
-.m-del-row{display:flex;gap:4px}
-.m-del-row .btn{flex:1;padding:5px 4px;font-size:10px}
-
-/* Log box */
-.logbox{background:#050507;border:1px solid var(--border);border-radius:var(--rs);font-family:var(--mono);font-size:11px;padding:12px 14px;height:310px;overflow-y:auto;line-height:1.8;white-space:pre-wrap;word-break:break-all}
-.l-ok{color:var(--green);font-weight:600}
-.l-err{color:var(--red);font-weight:600}
-.l-warn{color:var(--gold)}
-.l-dim{color:var(--text3)}
-
-/* Jobs */
-.job-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:11px 0;border-bottom:1px solid var(--border)}
-.job-row:last-child{border-bottom:none}
-.jt{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:3px 8px;border-radius:4px}
-.jt-scrape{background:var(--red-dim);color:var(--red)}
-.jt-optimize{background:var(--gold-dim);color:var(--gold)}
-.ji{font-family:var(--mono);font-size:10px;color:var(--text3);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.jtime{font-family:var(--mono);font-size:10px;color:var(--text3)}
-.jst{font-family:var(--mono);font-size:11px;font-weight:600;margin-left:auto}
-.jst.running{color:var(--gold);animation:pulse 1.4s ease-in-out infinite}
-.jst.done{color:var(--green)}
-.jst.failed{color:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* Delete modal */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(8,8,12,.87);z-index:400;align-items:center;justify-content:center;padding:20px}
-.modal-bg.open{display:flex}
-.modal{background:var(--ink2);border:1px solid var(--border2);border-radius:var(--r);padding:26px;max-width:350px;width:100%}
-.modal-title{font-family:var(--font-d);font-size:24px;letter-spacing:2px;color:var(--red);margin-bottom:10px}
-.modal-body{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:22px}
-.modal-body strong{color:var(--text);font-family:var(--mono)}
-.modal-acts{display:flex;gap:10px;justify-content:flex-end}
-
-/* Reader */
-.reader{display:none;position:fixed;inset:0;background:#060608;z-index:500;flex-direction:column}
-.reader.open{display:flex}
-.reader-hd{background:rgba(6,6,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:10;flex-shrink:0}
-.reader-title{font-size:12px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:100px}
-.reader-close{background:var(--ink3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);cursor:pointer;padding:5px 13px;font-family:var(--font);font-size:12px;font-weight:600;transition:all .15s;flex-shrink:0}
-.reader-close:hover{color:var(--red);border-color:var(--red)}
-.reader-nav{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.rnav-btn{background:var(--ink3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);cursor:pointer;padding:5px 11px;font-family:var(--font);font-size:12px;font-weight:600;transition:all .15s;white-space:nowrap}
-.rnav-btn:hover{border-color:var(--border2);color:var(--text)}
-.rnav-btn:disabled{opacity:.25;cursor:not-allowed}
-.rch-sel{background:var(--ink3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);padding:5px 8px;font-family:var(--mono);font-size:11px;outline:none;cursor:pointer;max-width:140px}
-.reader-body{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;align-items:center;background:#080809;-webkit-overflow-scrolling:touch}
-.rpage{width:100%;max-width:820px}
-.rpage img{width:100%;display:block;margin-bottom:2px}
-.rspin{color:var(--text3);font-family:var(--mono);font-size:12px;text-align:center;padding:80px 0}
-
-/* Toast */
-#toast{position:fixed;bottom:calc(var(--nh) + 14px);right:18px;background:var(--ink3);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 18px;font-size:11px;font-family:var(--mono);color:var(--text);opacity:0;transition:all .2s;transform:translateY(6px);pointer-events:none;z-index:600;max-width:280px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-#toast.show{opacity:1;transform:translateY(0)}
-
-/* Misc */
-.empty{color:var(--text3);font-family:var(--mono);font-size:12px;text-align:center;padding:50px 0}
-.log-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-
-/* Responsive */
-@media(max-width:800px){
-  .shell{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .main{padding:18px 14px calc(var(--nh) + 18px)}
-  .bot-nav{display:block}
-  #toast{bottom:calc(var(--nh)+10px);right:12px}
-  .pg-title{font-size:28px}
-  .logbox{height:240px}
-  .lib-grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
-  .card{padding:14px}
-  .row2{flex-direction:column;gap:0}
-}
-@media(max-width:380px){
-  .lib-grid{grid-template-columns:repeat(2,1fr)}
-}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+body{background:linear-gradient(180deg,#0a0b0e 0%,#08090b 36%,#050506 100%)}
+button,input,select{font:inherit}button,a{touch-action:manipulation}button{color:inherit}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#2a303b;border-radius:999px;border:2px solid transparent;background-clip:content-box}
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;padding:18px 14px;display:flex;flex-direction:column;gap:16px;background:#0b0c0f;border-right:1px solid var(--line);z-index:30}.logo-wrap{padding:8px 10px 18px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center}.logo-mark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#f2f3f5;color:#090a0c}.logo-mark svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2}.logo-k{display:none}.logo-en{font-size:24px;line-height:1;font-weight:800;letter-spacing:-.04em;color:var(--text)}.logo-sub{grid-column:2;color:var(--dim);font:700 10px/1.45 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-top:-8px}.flare-chip{border:1px solid var(--line);background:var(--panel);border-radius:var(--radius-lg);padding:10px 11px;display:flex;align-items:center;gap:10px;justify-content:space-between}.flare-left{display:flex;align-items:center;gap:10px;min-width:0}.dot{width:9px;height:9px;border-radius:50%;background:#4b5563;flex:none}.dot.on{background:var(--success);box-shadow:0 0 0 5px rgba(64,201,131,.12)}.flare-name{font:700 11px/1 var(--mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}.flare-btn{border:1px solid var(--line);border-radius:999px;padding:7px 11px;cursor:pointer;text-transform:uppercase;font:800 10px/1 var(--mono);letter-spacing:.08em;background:#1a1e26;color:var(--text);transition:.15s ease}.flare-btn.start{border-color:rgba(64,201,131,.35);color:var(--success)}.flare-btn.stop{border-color:rgba(229,95,109,.38);color:var(--danger)}.flare-btn:hover{background:#222733}
+.nav{display:flex;flex-direction:column;gap:6px;padding:0 2px}.nav-label{font:800 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding:6px 10px}.nav-item{position:relative;width:100%;border:1px solid transparent;background:transparent;color:var(--muted);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:11px;cursor:pointer;text-align:left;font-weight:750;transition:.15s ease}.nav-item:hover{background:#14171d;color:var(--text)}.nav-item.active{color:var(--text);background:#1a1e26;border-color:var(--line)}.nav-item.active::before{content:'';position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:0 4px 4px 0;background:var(--accent)}.nav-icon,.bn-ico{display:inline-grid;place-items:center;flex:0 0 auto}.nav-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.nav-badge{margin-left:auto;display:none;min-width:20px;height:20px;place-items:center;border-radius:999px;background:var(--accent);color:#0a0b0d;font:900 10px/1 var(--mono)}
+.main{min-width:0;padding:34px clamp(18px,4vw,56px) 48px}.panel{display:none;animation:panelIn .18s ease-out}.panel.active{display:block}@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.pg-title{font-size:34px;letter-spacing:-.04em;line-height:1;font-weight:850;color:var(--text)}.pg-sub{margin:8px 0 26px;color:var(--dim);font:700 12px/1.6 var(--mono);letter-spacing:.02em}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-xl);padding:22px;margin-bottom:16px;box-shadow:0 18px 50px rgba(0,0,0,.18)}.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:18px;color:var(--muted);font:800 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.card-hd::before{content:'';width:18px;height:2px;border-radius:999px;background:var(--accent)}
+.field{margin-bottom:14px}.field label{display:block;margin-bottom:8px;color:var(--muted);font:800 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:12px;background:#090b0e;color:var(--text);padding:13px 14px;outline:none;transition:.15s ease;font:600 13px/1.2 var(--mono)}.field input:focus,.field select:focus{border-color:#6b7280;box-shadow:0 0 0 3px rgba(148,163,184,.12)}.field input::placeholder{color:#555d6b}.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.checks{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}.chk{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:750;font-size:13px;background:#0d0f13;border:1px solid var(--line);border-radius:999px;padding:9px 12px;cursor:pointer}.chk input{accent-color:var(--accent-dark);width:15px;height:15px}.chk:hover{color:var(--text);background:#151820}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:10px 16px;cursor:pointer;font-weight:800;font-size:13px;letter-spacing:.01em;transition:.15s ease;text-decoration:none;white-space:nowrap}.btn svg,.m-overlay-btn svg,.reader-close svg,.rnav-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.38;cursor:not-allowed;transform:none!important}.btn-red{color:#08090b;background:var(--accent)}.btn-red:hover{background:#fff}.btn-ghost{color:var(--muted);background:#151820;border-color:var(--line)}.btn-ghost:hover{color:var(--text);background:#1d222c}.btn-read{color:#08090b;background:var(--accent)}.btn-dl{color:#07130d;background:var(--success);border-color:rgba(64,201,131,.35)}.btn-del{color:#f08a94;background:var(--danger-soft);border-color:rgba(229,95,109,.22);font-size:12px;padding:9px 12px}.btn-del:hover{background:rgba(229,95,109,.18);border-color:rgba(229,95,109,.42)}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(194px,1fr));gap:18px}.m-card{position:relative;overflow:hidden;border-radius:18px;background:#101217;border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.22);transition:.18s ease}.m-card:hover{transform:translateY(-4px);border-color:#3a414e}.m-cover{position:relative;aspect-ratio:2/3;background:#151820;overflow:hidden}.m-cover::after{content:'';position:absolute;inset:50% 0 0;background:linear-gradient(to top,rgba(8,9,11,.94),transparent);pointer-events:none}.m-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .32s ease,filter .32s ease}.m-card:hover .m-cover img{transform:scale(1.035);filter:saturate(1.02)}.m-cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#636b78;background:#151820}.m-cover-ph svg{width:72px;height:72px;stroke:currentColor;fill:none;stroke-width:1.4}.m-badges{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}.m-badge{font:900 9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;border-radius:999px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14)}.mb-cbz{background:rgba(64,201,131,.88);color:#04140c}.mb-opt{background:rgba(216,168,69,.9);color:#1b1202}.m-overlay{position:absolute;left:10px;right:10px;bottom:10px;z-index:3;opacity:0;transform:translateY(8px);transition:.18s ease}.m-card:hover .m-overlay{opacity:1;transform:none}.m-overlay-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 14px;color:#08090b;background:rgba(242,243,245,.94);font-weight:900;cursor:pointer}.m-info{padding:13px 13px 9px}.m-name{font-size:14px;font-weight:850;line-height:1.25;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.m-meta{margin-top:7px;color:var(--dim);font:800 10px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}.m-actions{display:grid;gap:8px;padding:0 13px 13px}.m-actions .btn{width:100%;padding:9px 11px;font-size:12px}.m-del-row{display:grid;grid-template-columns:1fr;gap:6px}.m-del-row .btn{justify-content:flex-start;border-radius:11px;font-size:11px;white-space:normal;text-align:left;line-height:1.25}.m-del-row .btn .del-small{display:block;color:#8f98a8;font:800 9px/1.35 var(--mono);text-transform:uppercase;letter-spacing:.04em;margin-left:auto}
+.log-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.logbox{height:330px;overflow:auto;padding:16px;border-radius:14px;border:1px solid var(--line);background:#050607;color:#8b95a5;font:600 12px/1.85 var(--mono);white-space:pre-wrap;word-break:break-word}.l-ok{color:var(--success)}.l-err{color:var(--danger)}.l-warn{color:var(--warning)}.l-dim{color:#8792a4}.job-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto auto;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.job-row:last-child{border-bottom:0}.jt{border-radius:999px;padding:7px 10px;font:900 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}.jt-scrape{background:#22262f;color:#d8dde6}.jt-optimize{background:#22262f;color:#d8dde6}.ji,.jtime{color:var(--dim);font:700 11px/1 var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.jst{font:900 11px/1 var(--mono);text-transform:uppercase}.jst.running{color:var(--warning);animation:pulse 1.4s infinite}.jst.done{color:var(--success)}.jst.failed{color:var(--danger)}@keyframes pulse{50%{opacity:.35}}
+.modal-bg{display:none;position:fixed;inset:0;z-index:400;padding:20px;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(10px)}.modal-bg.open{display:flex}.modal{max-width:420px;width:100%;padding:24px;border-radius:18px;background:#111318;border:1px solid var(--line);box-shadow:0 30px 90px rgba(0,0,0,.45)}.modal-title{font-size:22px;font-weight:850;color:var(--text);letter-spacing:-.02em}.modal-body{margin:14px 0 22px;color:var(--muted);font-size:14px;line-height:1.7}.modal-body strong{display:inline-block;margin-top:6px;color:var(--text);font-family:var(--mono);word-break:break-word}.modal-acts{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.reader{display:none;position:fixed;inset:0;z-index:500;background:#000;flex-direction:column}.reader.open{display:flex}.reader-hd{position:fixed;top:0;left:0;right:0;z-index:8;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(to bottom,rgba(0,0,0,.82),rgba(0,0,0,.58));border-bottom:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px);transition:transform .22s ease,opacity .22s ease}.reader-hd.hidden{transform:translateY(-105%);opacity:0}.reader-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800;font-size:13px;color:#e7e9ed;text-align:center}.reader-close,.rnav-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid rgba(255,255,255,.14);border-radius:999px;color:#d4d8df;background:rgba(18,20,24,.68);padding:9px 12px;cursor:pointer;font-weight:800;font-size:12px;transition:.15s ease}.reader-close:hover,.rnav-btn:hover{background:rgba(35,39,47,.78);color:#fff}.rnav-btn:disabled{opacity:.25;cursor:not-allowed}.reader-nav{display:flex;align-items:center;gap:7px}.rch-sel{max-width:190px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(12,14,18,.86);color:#fff;padding:9px 12px;outline:0;font:800 12px/1 var(--mono)}.reader-body{flex:1;overflow:auto;background:#000;-webkit-overflow-scrolling:touch;scrollbar-width:none}.reader-body::-webkit-scrollbar{display:none}.reader-pages{width:100%;display:flex;flex-direction:column;align-items:center}.rpage{width:100%;max-width:min(980px,100vw);margin:0 auto;background:#000}.rpage img{display:block;width:100%;height:auto;margin:0 auto}.rspin{padding:45vh 20px 0;text-align:center;color:#6b7280;font:800 13px/1 var(--mono)}
+.bot-nav{display:none;position:fixed;left:10px;right:10px;bottom:10px;z-index:200;padding-bottom:env(safe-area-inset-bottom)}.bot-nav-inner{height:58px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;border:1px solid var(--line);border-radius:18px;background:rgba(10,11,14,.92);backdrop-filter:blur(18px);box-shadow:0 20px 70px rgba(0,0,0,.45)}.bn{position:relative;border:0;background:transparent;color:var(--dim);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:850;cursor:pointer}.bn.active{color:var(--text);background:#1a1e26}.bn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.bn-bdg{position:absolute;top:4px;right:20%;display:none;min-width:17px;height:17px;border-radius:999px;background:var(--accent);color:#090a0c;font:900 9px/17px var(--mono)}#toast{position:fixed;right:18px;bottom:18px;z-index:600;max-width:320px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.18s ease;padding:12px 15px;border-radius:12px;background:#151820;border:1px solid var(--line);box-shadow:0 22px 70px rgba(0,0,0,.45);font:800 12px/1.4 var(--mono);color:var(--text)}#toast.show{opacity:1;transform:none}.empty{grid-column:1/-1;color:var(--dim);font:800 13px/1.6 var(--mono);text-align:center;padding:54px 18px;border:1px dashed var(--line);border-radius:18px;background:#0d0f12}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.sidebar{display:none}.main{padding:22px 14px calc(var(--mobile-nav) + 30px)}.bot-nav{display:block}.row2{grid-template-columns:1fr}.lib-grid{grid-template-columns:repeat(auto-fill,minmax(154px,1fr));gap:12px}.m-card{border-radius:16px}.m-info{padding:12px 12px 8px}.m-actions{padding:0 12px 12px}.m-overlay{opacity:1;transform:none}.m-del-row .btn .del-small{display:none}.job-row{grid-template-columns:auto minmax(0,1fr) auto}.jtime{display:none}.job-row .btn{grid-column:1/-1}.logbox{height:260px}#toast{bottom:calc(var(--mobile-nav) + 26px);left:14px;right:14px;max-width:none}.reader-hd{grid-template-columns:auto minmax(0,1fr);gap:8px;padding:9px 10px}.reader-title{order:3;grid-column:1/-1;text-align:left;padding:0 4px;font-size:12px;color:#b8c0cc}.reader-nav{justify-content:flex-end}.rnav-btn{width:39px;height:38px;padding:0;font-size:0;border-radius:14px}.rnav-btn svg{width:19px;height:19px}.reader-close{width:39px;height:38px;padding:0;font-size:0;border-radius:14px}.reader-close svg{width:19px;height:19px}.rch-sel{max-width:42vw;height:38px;border-radius:14px}.rpage{max-width:100vw}.rspin{padding-top:42vh}.pg-title{font-size:31px}}
+@media(max-width:420px){.lib-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.m-name{font-size:13px;min-height:34px}.m-actions .btn{font-size:11px}.btn{padding:10px 13px}.card{padding:17px;border-radius:18px}.pg-title{font-size:30px}}
 </style>
 </head>
 <body>
@@ -811,9 +640,10 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 <!-- Sidebar -->
 <aside class="sidebar">
   <div class="logo-wrap">
-    <div class="logo-k">墨</div>
-    <div class="logo-en">MANGA VAULT</div>
-    <div class="logo-sub">scraper · optimizer · reader</div>
+    <div class="logo-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 10h18a9 9 0 0 1 9 9v19H21a9 9 0 0 1-9-9V10Z"></path><path d="M20 21h12M20 29h8"></path></svg></div>
+    <div class="logo-k">Manga</div>
+    <div class="logo-en">Manga</div>
+    <div class="logo-sub">library · reader · tools</div>
   </div>
   <div class="flare-chip">
     <div class="flare-left">
@@ -824,11 +654,11 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
   </div>
   <nav class="nav">
     <div class="nav-label">Navigation</div>
-    <button class="nav-item active" id="sb-scrape"   onclick="showPanel('scrape',this)">  <span class="nav-icon">📡</span> Scrape</button>
-    <button class="nav-item"        id="sb-library"  onclick="showPanel('library',this)"> <span class="nav-icon">📚</span> Library</button>
-    <button class="nav-item"        id="sb-optimize" onclick="showPanel('optimize',this)"><span class="nav-icon">⚡</span> Optimize</button>
+    <button class="nav-item active" id="sb-scrape"   onclick="showPanel('scrape',this)">  <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 12h4l3-7 3 14 3-7h1"></path><path d="M4 19h16"></path></svg></span> Scrape</button>
+    <button class="nav-item"        id="sb-library"  onclick="showPanel('library',this)"> <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"></path><path d="M8 7h8M8 11h7"></path></svg></span> Library</button>
+    <button class="nav-item"        id="sb-optimize" onclick="showPanel('optimize',this)"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l1-7Z"></path></svg></span> Optimize</button>
     <button class="nav-item"        id="sb-jobs"     onclick="showPanel('jobs',this)">
-      <span class="nav-icon">🔧</span> Jobs
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.08A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.08A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.08A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.13.39.46.7.85.85.25.1.52.15.8.15H21a2 2 0 1 1 0 4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path></svg></span> Jobs
       <span class="nav-badge" id="jobs-badge-sb"></span>
     </button>
   </nav>
@@ -851,7 +681,7 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
         <div class="field"><label>Start Chapter</label><input id="scrape-start" type="text" placeholder="e.g. 1"></div>
         <div class="field"><label>End Chapter</label><input id="scrape-end" type="text" placeholder="e.g. 100 (default: all)"></div>
       </div>
-      <button class="btn btn-red" onclick="startScrape()">▶ &nbsp;Start Scrape</button>
+      <button class="btn btn-red" onclick="startScrape()"><svg viewBox="0 0 24 24"><path d="M5 12h4l3-7 3 14 3-7h1"></path><path d="M4 19h16"></path></svg>Start Scrape</button>
     </div>
     <div class="card" id="scrape-log-card" style="display:none;">
       <div class="log-top">
@@ -888,7 +718,7 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
         <label class="chk"><input type="checkbox" id="opt-cbz-only"> CBZ only</label>
         <label class="chk"><input type="checkbox" id="opt-delete"> Delete originals</label>
       </div>
-      <button class="btn btn-red" onclick="startOptimize()">⚡ &nbsp;Start Optimize</button>
+      <button class="btn btn-red" onclick="startOptimize()"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l1-7Z"></path></svg>Start Optimize</button>
     </div>
     <div class="card" id="opt-log-card" style="display:none;">
       <div class="log-top">
@@ -916,11 +746,11 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 <!-- Bottom nav (mobile) -->
 <nav class="bot-nav">
   <div class="bot-nav-inner">
-    <button class="bn active" id="bn-scrape"   onclick="showPanel('scrape',this,true)">  <span class="bn-ico">📡</span>Scrape</button>
-    <button class="bn"        id="bn-library"  onclick="showPanel('library',this,true)"> <span class="bn-ico">📚</span>Library</button>
-    <button class="bn"        id="bn-optimize" onclick="showPanel('optimize',this,true)"><span class="bn-ico">⚡</span>Optimize</button>
+    <button class="bn active" id="bn-scrape"   onclick="showPanel('scrape',this,true)">  <span class="bn-ico"><svg viewBox="0 0 24 24"><path d="M5 12h4l3-7 3 14 3-7h1"></path><path d="M4 19h16"></path></svg></span>Scrape</button>
+    <button class="bn"        id="bn-library"  onclick="showPanel('library',this,true)"> <span class="bn-ico"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"></path><path d="M8 7h8M8 11h7"></path></svg></span>Library</button>
+    <button class="bn"        id="bn-optimize" onclick="showPanel('optimize',this,true)"><span class="bn-ico"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l1-7Z"></path></svg></span>Optimize</button>
     <button class="bn"        id="bn-jobs"     onclick="showPanel('jobs',this,true)">
-      <span class="bn-ico">🔧</span>Jobs
+      <span class="bn-ico"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.08A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.08A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.08A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.13.39.46.7.85.85.25.1.52.15.8.15H21a2 2 0 1 1 0 4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path></svg></span>Jobs
       <span class="bn-bdg" id="jobs-badge-bn"></span>
     </button>
   </div>
@@ -941,17 +771,17 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 <!-- Reader -->
 <div class="reader" id="reader">
   <div class="reader-hd">
-    <button class="reader-close" onclick="closeReader()">✕ Close</button>
+    <button class="reader-close" onclick="closeReader()"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"></path></svg><span>Close</span></button>
     <span class="reader-title" id="reader-title">—</span>
     <div class="reader-nav">
-      <button class="rnav-btn" id="reader-prev" onclick="readerPrev()">‹ Prev</button>
+      <button class="rnav-btn" id="reader-prev" onclick="readerPrev()"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg><span>Prev</span></button>
       <select class="rch-sel" id="reader-sel" onchange="readerJump(this.value)"></select>
-      <button class="rnav-btn" id="reader-next" onclick="readerNext()">Next ›</button>
+      <button class="rnav-btn" id="reader-next" onclick="readerNext()"><span>Next</span><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button>
     </div>
   </div>
   <div class="reader-body" id="reader-body">
     <div class="rspin" id="reader-spin">Loading…</div>
-    <div id="reader-pages"></div>
+    <div class="reader-pages" id="reader-pages"></div>
   </div>
 </div>
 
@@ -959,7 +789,14 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 
 <script>
 let currentScrapeJob=null,currentOptJob=null,_pollers={},_delTarget=null;
-let _readerManga=null,_readerChs=[],_readerIdx=0;
+let _readerManga=null,_readerChs=[],_readerIdx=0,_readerLastScroll=0;
+const ICONS={
+  read:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"></path></svg>',
+  download:'<svg viewBox="0 0 24 24"><path d="M12 3v11"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>',
+  bolt:'<svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l1-7Z"></path></svg>',
+  trash:'<svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M6 6l1 15h10l1-15"></path><path d="M10 11v6M14 11v6"></path></svg>',
+  book:'<svg viewBox="0 0 48 48"><path d="M10 11h21a7 7 0 0 1 7 7v19H17a7 7 0 0 1-7-7V11Z"></path><path d="M18 21h13M18 29h9"></path></svg>'
+};
 
 function showPanel(name,btn,mobile=false){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -982,6 +819,7 @@ function toast(msg,col){
 }
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function attr(s){return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
 async function pollStatus(){
   try{
@@ -1132,37 +970,49 @@ async function refreshLibrary(){
   if(!d.manga.length){grid.innerHTML='<div class="empty">No manga downloaded yet.</div>';return;}
   grid.innerHTML=d.manga.map(m=>{
     const coverUrl=`/api/cover/${encodeURIComponent(m.name)}`;
-    return`<div class="m-card">
+    const mangaName=attr(m.name);
+    const sourceLabel=attr(`${m.name} — original manga folder`);
+    const optLabel=attr(`${m.name} — optimized WebP folder`);
+    const cbzLabel=attr(`${m.name} — CBZ export folder`);
+    return`<article class="m-card">
       <div class="m-cover">
-        <img src="${coverUrl}" loading="lazy" alt="${esc(m.name)}"
+        <img src="${coverUrl}" loading="lazy" alt="${mangaName} cover"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="m-cover-ph" style="display:none;">墨</div>
+        <div class="m-cover-ph" style="display:none;">${ICONS.book}</div>
         <div class="m-badges">
-          ${m.has_opt?'<span class="m-badge mb-opt">webp</span>':''}
-          ${m.has_cbz?'<span class="m-badge mb-cbz">cbz</span>':''}
+          ${m.has_opt?'<span class="m-badge mb-opt">Optimized</span>':''}
+          ${m.has_cbz?'<span class="m-badge mb-cbz">CBZ Ready</span>':''}
         </div>
         <div class="m-overlay">
-          <button class="m-overlay-btn" onclick="openReader('${esc(m.name)}')">▶ Read</button>
+          <button class="m-overlay-btn" type="button" data-action="read" data-name="${mangaName}">${ICONS.read} Read manga</button>
         </div>
       </div>
       <div class="m-info">
-        <div class="m-name" title="${esc(m.name)}">${esc(m.name)}</div>
-        <div class="m-meta">${m.chapters} ch${m.chapters!==1?'s':''}</div>
+        <div class="m-name" title="${mangaName}">${esc(m.name)}</div>
+        <div class="m-meta">${m.chapters} chapter${m.chapters!==1?'s':''}</div>
       </div>
       <div class="m-actions">
         ${m.has_cbz
-          ?`<a class="btn btn-dl" href="/api/download/${encodeURIComponent(m.name)}" download>⬇ Download CBZ</a>`
-          :`<button class="btn btn-ghost" disabled style="opacity:.3;cursor:not-allowed;">⬇ No CBZ yet</button>`}
-        <button class="btn btn-ghost" onclick="quickOptimize('${esc(m.name)}')">⚡ Optimize</button>
+          ?`<a class="btn btn-dl" href="/api/download/${encodeURIComponent(m.name)}" download>${ICONS.download} Download CBZ</a>`
+          :`<button class="btn btn-ghost" disabled>No CBZ export yet</button>`}
+        <button class="btn btn-ghost" type="button" data-action="optimize" data-name="${mangaName}">${ICONS.bolt} Optimize manga</button>
         <div class="m-del-row">
-          <button class="btn btn-del" title="Delete source files" onclick="openDelModal('${esc(m.name)}','${esc(m.name)} (source)')">🗑 Src</button>
-          ${m.has_opt?`<button class="btn btn-del" title="Delete WebP folder" onclick="openDelModal('${esc(m.name)}-optimized','${esc(m.name)} (webp)')">🗑 WebP</button>`:''}
-          ${m.has_cbz?`<button class="btn btn-del" title="Delete CBZ folder" onclick="openDelModal('${esc(m.name)}-cbz','${esc(m.name)} (cbz)')">🗑 CBZ</button>`:''}
+          <button class="btn btn-del" type="button" title="Delete original manga folder" data-action="delete" data-dir="${mangaName}" data-label="${sourceLabel}">${ICONS.trash} Delete original <span class="del-small">source files</span></button>
+          ${m.has_opt?`<button class="btn btn-del" type="button" title="Delete optimized WebP folder" data-action="delete" data-dir="${mangaName}-optimized" data-label="${optLabel}">${ICONS.trash} Delete optimized <span class="del-small">WebP folder</span></button>`:''}
+          ${m.has_cbz?`<button class="btn btn-del" type="button" title="Delete CBZ export folder" data-action="delete" data-dir="${mangaName}-cbz" data-label="${cbzLabel}">${ICONS.trash} Delete CBZ export <span class="del-small">packed files</span></button>`:''}
         </div>
       </div>
-    </div>`;
+    </article>`;
   }).join('');
 }
+document.getElementById('library-grid').addEventListener('click',e=>{
+  const el=e.target.closest('[data-action]');
+  if(!el)return;
+  const action=el.dataset.action;
+  if(action==='read')openReader(el.dataset.name);
+  if(action==='optimize')quickOptimize(el.dataset.name);
+  if(action==='delete')openDelModal(el.dataset.dir,el.dataset.label);
+});
 
 function quickOptimize(name){
   showPanel('optimize',document.getElementById('sb-optimize'));
@@ -1189,10 +1039,28 @@ async function confirmDelete(){
   }catch(e){toast('Delete failed','var(--red)');}
 }
 
+function handleReaderScroll(){
+  const body=document.getElementById('reader-body');
+  const header=document.querySelector('.reader-hd');
+  const current=body.scrollTop;
+  if(current>_readerLastScroll+12 && current>70)header.classList.add('hidden');
+  else if(current<_readerLastScroll-12)header.classList.remove('hidden');
+  _readerLastScroll=Math.max(current,0);
+}
+function showReaderChrome(){
+  const header=document.querySelector('.reader-hd');
+  header.classList.remove('hidden');
+}
+
 async function openReader(manga){
   _readerManga=manga;
   document.getElementById('reader').classList.add('open');
   document.body.style.overflow='hidden';
+  _readerLastScroll=0;
+  showReaderChrome();
+  const readerBody=document.getElementById('reader-body');
+  readerBody.removeEventListener('scroll',handleReaderScroll);
+  readerBody.addEventListener('scroll',handleReaderScroll,{passive:true});
   try{screen.orientation.lock('portrait').catch(()=>{});}catch(e){}
   const r=await fetch(`/api/read/${encodeURIComponent(manga)}/chapters`);
   if(!r.ok){toast('No chapters found','var(--red)');closeReader();return;}
@@ -1213,7 +1081,10 @@ async function loadReaderCh(idx){
   const pages=document.getElementById('reader-pages');
   const spin=document.getElementById('reader-spin');
   pages.innerHTML='';spin.style.display='block';
-  document.getElementById('reader-body').scrollTop=0;
+  const readerBody=document.getElementById('reader-body');
+  readerBody.scrollTop=0;
+  _readerLastScroll=0;
+  showReaderChrome();
   const r=await fetch(`/api/read/${encodeURIComponent(_readerManga)}/${encodeURIComponent(ch)}/images`);
   if(!r.ok){spin.textContent='Failed to load chapter.';return;}
   const d=await r.json();
@@ -1223,6 +1094,8 @@ async function loadReaderCh(idx){
 
 function closeReader(){
   document.getElementById('reader').classList.remove('open');
+  document.getElementById('reader-body').removeEventListener('scroll',handleReaderScroll);
+  showReaderChrome();
   document.body.style.overflow='';
   _readerManga=null;_readerChs=[];_readerIdx=0;
 }
@@ -1262,5 +1135,5 @@ if __name__ == "__main__":
 
     os.makedirs(BASE_DIR, exist_ok=True)
 
-    print(f"\n  墨  Manga Vault running → http://0.0.0.0:{PORT}\n")
+    print(f"\n  Manga running → http://0.0.0.0:{PORT}\n")
     app.run(host="0.0.0.0", port=PORT, debug=False, threaded=True)
