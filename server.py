@@ -96,9 +96,20 @@ def _new_job(kind: str) -> str:
     return jid
 
 
+_ANSI_RE = re.compile(
+    r"(?:\x1B\][^\x07]*(?:\x07|\x1B\\)|\x1B[@-_][0-?]*[ -/]*[@-~])"
+)
+
+
+def _strip_ansi(text: str) -> str:
+    """Remove terminal color/control escape sequences before showing logs in the UI."""
+    return _ANSI_RE.sub("", text)
+
+
 def _append(jid: str, line: str):
     ts = datetime.now().strftime("%H:%M:%S")
-    _jobs[jid]["log"].append(f"[{ts}] {line.rstrip()}")
+    clean = _strip_ansi(line).rstrip()
+    _jobs[jid]["log"].append(f"[{ts}] {clean}")
 
 
 def _finish(jid: str, ok: bool):
@@ -820,6 +831,11 @@ function onReaderScroll(){
   _readerLastScroll=Math.max(0,y);
 }
 
+function stripAnsi(s){
+  return String(s)
+    .replace(/\x1B\][^\x07]*(?:\x07|\x1B\\)/g,'')
+    .replace(/\x1B[@-_][0-?]*[ -/]*[@-~]/g,'');
+}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function escAttr(s){return esc(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
@@ -859,10 +875,11 @@ async function toggleFlare(){
 }
 
 function colorLine(line){
-  const s=esc(line);
-  if(/✔|OK/.test(line))return`<span class="l-ok">${s}</span>`;
-  if(/✘|ERROR|FAIL/.test(line))return`<span class="l-err">${s}</span>`;
-  if(/⚠|WARN/.test(line))return`<span class="l-warn">${s}</span>`;
+  const clean=stripAnsi(line);
+  const s=esc(clean);
+  if(/✔|OK/.test(clean))return`<span class="l-ok">${s}</span>`;
+  if(/✘|ERROR|FAIL/.test(clean))return`<span class="l-err">${s}</span>`;
+  if(/⚠|WARN/.test(clean))return`<span class="l-warn">${s}</span>`;
   return`<span class="l-dim">${s}</span>`;
 }
 
